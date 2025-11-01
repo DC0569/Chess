@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chess Board - Play Online</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="window.location.href='index.html'">
+        <span class="nav-icon">♔</span>
+        <span class="nav-title">ChessMaster</span>
+      </div>
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item"><a href="index.html" class="nav-link active">Play</a></li>
+        <li class="nav-item"><a href="learn.html" class="nav-link">Learn</a></li>
+        <li class="nav-item"><a href="puzzles.html" class="nav-link">Puzzles</a></li>
+        <li class="nav-item"><a href="leaderboard.html" class="nav-link">Leaderboard</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="loginBtn" class="btn-secondary">Login</button>
+        <button id="signupBtn" class="btn-primary">Sign Up</button>
+
+        <!-- Compact header controls: theme toggle -->
+        <div class="header-controls" style="margin-left:0.5rem; display:flex; gap:0.5rem; align-items:center;">
+          <button id="themeToggle" class="icon-btn" aria-label="Toggle light/dark theme" title="Toggle theme">☀️</button>
+        </div>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" aria-label="Close login modal">&times;</button>
+      <div class="modal-header">
+        <h2 id="modalTitle">Welcome Back!</h2>
+        <p>Sign in to continue your chess journey</p>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" name="remember">
+            <span>Remember me</span>
+          </label>
+          <a href="forgot-password.html" class="link-text">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn-submit">Sign In</button>
+        <div class="form-divider">
+          <span>or</span>
+        </div>
+        <button type="button" id="guestBtn" class="btn-guest">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Continue as Guest
+        </button>
+      </form>
+      <div class="modal-footer">
+        Don't have an account? <a href="signup.html" class="link-text">Sign up now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Info Bar (shown after login) -->
+  <div class="user-bar" id="userBar" style="display: none;">
+    <div class="user-info">
+      <div class="user-avatar">
+        <span id="userInitial">G</span>
+      </div>
+      <div class="user-details">
+        <span class="user-name" id="userName">Guest Player</span>
+        <span class="user-status">Online</span>
+      </div>
+    </div>
+    <button id="logoutBtn" class="btn-logout">Logout</button>
+  </div>
+
+  <header class="site-header">
+    <h1>Play Chess</h1>
+    <p>Challenge a friend locally with a classic 8×8 board.</p>
+  </header>
+
+  <main class="layout">
+    <section class="board-wrapper">
+      <div id="board" class="board" aria-label="Chess board"></div>
+    </section>
+    <aside class="sidebar">
+      <div class="panel">
+        <h2>Game Status</h2>
+        <p id="turn" class="turn"></p>
+        <p id="status" class="status-message"></p>
+        <div class="button-group">
+          <button id="resetBtn" type="button">🔄 New Game</button>
+          <button id="undoBtn" type="button">↶ Undo</button>
+        </div>
+        <div class="button-group" style="margin-top: 0.75rem;">
+          <button id="saveGameBtn" type="button" class="btn-secondary" style="flex: 1;">💾 Save</button>
+          <button id="loadGameBtn" type="button" class="btn-secondary" style="flex: 1;">📂 Load</button>
+        </div>
+        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <label class="checkbox-label">
+            <input type="checkbox" id="showCoords" checked>
+            <span>Show Coordinates</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="soundEnabled">
+            <span>Sound Effects</span>
+          </label>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Captured Pieces</h2>
+        <div class="captured">
+          <div class="captured-section">
+            <span class="captured-label">White:</span>
+            <div id="capturedWhite" class="captured-pieces"></div>
+          </div>
+          <div class="captured-section">
+            <span class="captured-label">Black:</span>
+            <div id="capturedBlack" class="captured-pieces"></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Move List</h2>
+        <ol id="moveList" class="move-list"></ol>
+      </div>
+      <div class="panel notes">
+        <h2>How to Play</h2>
+        <ul>
+          <li>Select a piece, then choose a highlighted destination.</li>
+          <li>Legal moves only: checks, captures, and promotions enforced.</li>
+          <li>Game ends on checkmate or stalemate.</li>
+        </ul>
+        <h3 style="margin-top: 1.5rem; font-size: 1rem;">⌨️ Keyboard Shortcuts</h3>
+        <ul style="font-size: 0.9rem; color: var(--muted);">
+          <li><kbd>Ctrl+Z</kbd> - Undo move</li>
+          <li><kbd>Ctrl+N</kbd> - New game</li>
+          <li><kbd>Ctrl+S</kbd> - Save game</li>
+          <li><kbd>Ctrl+O</kbd> - Load game</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Pawn Promotion Modal -->
+  <div id="promotionModal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content promotion-modal-content">
+      <div class="modal-header">
+        <h2>Promote Your Pawn</h2>
+        <p>Choose a piece</p>
+      </div>
+      <div class="promotion-choices">
+        <button class="promotion-choice" data-piece="q" aria-label="Promote to Queen">
+          <span class="promotion-piece">♕</span>
+          <span class="promotion-label">Queen</span>
+        </button>
+        <button class="promotion-choice" data-piece="r" aria-label="Promote to Rook">
+          <span class="promotion-piece">♖</span>
+          <span class="promotion-label">Rook</span>
+        </button>
+        <button class="promotion-choice" data-piece="b" aria-label="Promote to Bishop">
+          <span class="promotion-piece">♗</span>
+          <span class="promotion-label">Bishop</span>
+        </button>
+        <button class="promotion-choice" data-piece="n" aria-label="Promote to Knight">
+          <span class="promotion-piece">♘</span>
+          <span class="promotion-label">Knight</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <small>Built with HTML, CSS, and JavaScript.</small>
+    <br />
+    <small>&copy; 2024 ChessMaster. All rights reserved.</small>
+  
+  </footer>
+</body>
+</html>

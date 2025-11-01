@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard - ChessMaster</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="window.location.href='index.html'">
+        <span class="nav-icon">♔</span>
+        <span class="nav-title">ChessMaster</span>
+      </div>
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Play</a></li>
+        <li class="nav-item"><a href="learn.html" class="nav-link">Learn</a></li>
+        <li class="nav-item"><a href="puzzles.html" class="nav-link">Puzzles</a></li>
+        <li class="nav-item"><a href="leaderboard.html" class="nav-link active">Leaderboard</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="loginBtn" class="btn-secondary">Login</button>
+        <button id="signupBtn" class="btn-primary">Sign Up</button>
+
+        <!-- Compact header controls: theme toggle -->
+        <div class="header-controls" style="margin-left:0.5rem; display:flex; gap:0.5rem; align-items:center;">
+          <button id="themeToggle" class="icon-btn" aria-label="Toggle light/dark theme" title="Toggle theme">☀️</button>
+        </div>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" aria-label="Close login modal">&times;</button>
+      <div class="modal-header">
+        <h2 id="modalTitle">Welcome Back!</h2>
+        <p>Sign in to continue your chess journey</p>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" name="remember">
+            <span>Remember me</span>
+          </label>
+          <a href="forgot-password.html" class="link-text">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn-submit">Sign In</button>
+        <div class="form-divider">
+          <span>or</span>
+        </div>
+        <button type="button" id="guestBtn" class="btn-guest">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Continue as Guest
+        </button>
+      </form>
+      <div class="modal-footer">
+        Don't have an account? <a href="signup.html" class="link-text">Sign up now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Info Bar -->
+  <div class="user-bar" id="userBar" style="display: none;">
+    <div class="user-info">
+      <div class="user-avatar">
+        <span id="userInitial">G</span>
+      </div>
+      <div class="user-details">
+        <span class="user-name" id="userName">Guest Player</span>
+        <span class="user-status">Online</span>
+      </div>
+    </div>
+    <button id="logoutBtn" class="btn-logout">Logout</button>
+  </div>
+
+  <header class="site-header">
+    <h1>Global Leaderboard</h1>
+    <p>Compete with the best players worldwide</p>
+  </header>
+
+  <main class="content-page">
+    <div class="leaderboard-container">
+      
+      <!-- Filter Tabs -->
+      <div class="leaderboard-tabs">
+        <button class="tab-btn active">Overall</button>
+        <button class="tab-btn">Blitz</button>
+        <button class="tab-btn">Rapid</button>
+        <button class="tab-btn">Classical</button>
+        <button class="tab-btn">Puzzles</button>
+      </div>
+
+      <!-- Empty State -->
+      <section class="empty-leaderboard">
+        <div class="empty-icon">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h2>No Rankings Yet</h2>
+        <p>Be the first to compete! Play ranked games to earn your spot on the leaderboard.</p>
+        <a href="index.html" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; margin-top: 20px; padding: 12px 32px;">
+          🎮 Start Playing
+        </a>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <small>Built with HTML, CSS, and vanilla JavaScript.</small>
+  </footer>
+</body>
+</html>

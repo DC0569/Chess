@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chess Puzzles - ChessMaster</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="window.location.href='index.html'">
+        <span class="nav-icon">♔</span>
+        <span class="nav-title">ChessMaster</span>
+      </div>
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Play</a></li>
+        <li class="nav-item"><a href="learn.html" class="nav-link">Learn</a></li>
+        <li class="nav-item"><a href="puzzles.html" class="nav-link active">Puzzles</a></li>
+        <li class="nav-item"><a href="leaderboard.html" class="nav-link">Leaderboard</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="loginBtn" class="btn-secondary">Login</button>
+        <button id="signupBtn" class="btn-primary">Sign Up</button>
+
+        <!-- Compact header controls: theme toggle -->
+        <div class="header-controls" style="margin-left:0.5rem; display:flex; gap:0.5rem; align-items:center;">
+          <button id="themeToggle" class="icon-btn" aria-label="Toggle light/dark theme" title="Toggle theme">☀️</button>
+        </div>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" aria-label="Close login modal">&times;</button>
+      <div class="modal-header">
+        <h2 id="modalTitle">Welcome Back!</h2>
+        <p>Sign in to continue your chess journey</p>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" name="remember">
+            <span>Remember me</span>
+          </label>
+          <a href="forgot-password.html" class="link-text">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn-submit">Sign In</button>
+        <div class="form-divider">
+          <span>or</span>
+        </div>
+        <button type="button" id="guestBtn" class="btn-guest">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Continue as Guest
+        </button>
+      </form>
+      <div class="modal-footer">
+        Don't have an account? <a href="signup.html" class="link-text">Sign up now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Info Bar -->
+  <div class="user-bar" id="userBar" style="display: none;">
+    <div class="user-info">
+      <div class="user-avatar">
+        <span id="userInitial">G</span>
+      </div>
+      <div class="user-details">
+        <span class="user-name" id="userName">Guest Player</span>
+        <span class="user-status">Online</span>
+      </div>
+    </div>
+    <button id="logoutBtn" class="btn-logout">Logout</button>
+  </div>
+
+  <!-- Puzzles Page Content -->
+  <div class="puzzles-page">
+    <div class="page-header">
+      <h1>♟️ Chess Puzzles</h1>
+      <p>Sharpen your tactical skills with daily chess puzzles</p>
+    </div>
+
+    <div class="puzzles-container">
+      <!-- Puzzle Difficulty Filter -->
+      <div class="puzzle-filters">
+        <button class="filter-btn active" data-difficulty="all">All Puzzles</button>
+        <button class="filter-btn" data-difficulty="beginner">Beginner</button>
+        <button class="filter-btn" data-difficulty="intermediate">Intermediate</button>
+        <button class="filter-btn" data-difficulty="advanced">Advanced</button>
+        <button class="filter-btn" data-difficulty="master">Master</button>
+      </div>
+
+      <!-- Puzzles Grid -->
+      <div class="puzzles-grid">
+        
+        <!-- Puzzle Card 1 -->
+        <div class="puzzle-card" data-difficulty="beginner">
+          <div class="puzzle-header">
+            <span class="puzzle-difficulty beginner">Beginner</span>
+            <span class="puzzle-rating">⭐ 1200</span>
+          </div>
+          <div class="puzzle-preview">
+            <div class="puzzle-board-mini">
+              <span style="font-size: 48px;">♔</span>
+            </div>
+          </div>
+          <div class="puzzle-info">
+            <h3>Checkmate in 2 Moves</h3>
+            <p>Find the winning combination for White</p>
+          </div>
+          <button class="btn-solve">Solve Puzzle</button>
+        </div>
+
+        <!-- Puzzle Card 2 -->
+        <div class="puzzle-card" data-difficulty="intermediate">
+          <div class="puzzle-header">
+            <span class="puzzle-difficulty intermediate">Intermediate</span>
+            <span class="puzzle-rating">⭐ 1600</span>
+          </div>
+          <div class="puzzle-preview">
+            <div class="puzzle-board-mini">
+              <span style="font-size: 48px;">♕</span>
+            </div>
+          </div>
+          <div class="puzzle-info">
+            <h3>Queen Sacrifice</h3>
+            <p>Sacrifice your queen for a brilliant mate</p>
+          </div>
+          <button class="btn-solve">Solve Puzzle</button>
+        </div>
+
+        <!-- Puzzle Card 3 -->
+        <div class="puzzle-card" data-difficulty="advanced">
+          <div class="puzzle-header">
+            <span class="puzzle-difficulty advanced">Advanced</span>
+            <span class="puzzle-rating">⭐ 2000</span>
+          </div>
+          <div class="puzzle-preview">
+            <div class="puzzle-board-mini">
+              <span style="font-size: 48px;">♖</span>
+            </div>
+          </div>
+          <div class="puzzle-info">
+            <h3>Rook Endgame</h3>
+            <p>Navigate a tricky endgame position</p>
+          </div>
+          <button class="btn-solve">Solve Puzzle</button>
+        </div>
+
+        <!-- Puzzle Card 4 -->
+        <div class="puzzle-card" data-difficulty="beginner">
+          <div class="puzzle-header">
+            <span class="puzzle-difficulty beginner">Beginner</span>
+            <span class="puzzle-rating">⭐ 1000</span>
+          </div>
+          <div class="puzzle-preview">
+            <div class="puzzle-board-mini">
+              <span style="font-size: 48px;">♗</span>
+            </div>
+          </div>
+          <div class="puzzle-info">
+            <h3>Back Rank Mate</h3>
+            <p>Classic back rank checkmate pattern</p>
+          </div>
+          <button class="btn-solve">Solve Puzzle</button>
+        </div>
+
+        <!-- Puzzle Card 5 -->
+        <div class="puzzle-card" data-difficulty="master">
+          <div class="puzzle-header">
+            <span class="puzzle-difficulty master">Master</span>
+            <span class="puzzle-rating">⭐ 2400</span>
+          </div>
+          <div class="puzzle-preview">
+            <div class="puzzle-board-mini">
+              <span style="font-size: 48px;">♘</span>
+            </div>
+          </div>
+          <div class="puzzle-info">
+            <h3>Knight Fork</h3>
+            <p>A challenging tactical motif from grandmaster play</p>
+          </div>
+          <button class="btn-solve">Solve Puzzle</button>
+        </div>
+
+        <!-- Puzzle Card 6 -->
+        <div class="puzzle-card" data-difficulty="intermediate">
+          <div class="puzzle-header">
+            <span class="puzzle-difficulty intermediate">Intermediate</span>
+            <span class="puzzle-rating">⭐ 1800</span>
+          </div>
+          <div class="puzzle-preview">
+            <div class="puzzle-board-mini">
+              <span style="font-size: 48px;">♙</span>
+            </div>
+          </div>
+          <div class="puzzle-info">
+            <h3>Pawn Breakthrough</h3>
+            <p>Use your pawns to create a passed pawn</p>
+          </div>
+          <button class="btn-solve">Solve Puzzle</button>
+        </div>
+
+      </div>
+
+      <!-- Coming Soon Message -->
+      <div class="coming-soon-section">
+        <h2>🚧 More Puzzles Coming Soon!</h2>
+        <p>We're working on adding hundreds of tactical puzzles across all difficulty levels. Check back soon!</p>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <small>Built with HTML, CSS, and JavaScript.
+      <br>
+      &copy; 2024 ChessMaster. All rights reserved.
+    </small>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learn Chess - ChessMaster</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="window.location.href='index.html'">
+        <span class="nav-icon">♔</span>
+        <span class="nav-title">ChessMaster</span>
+      </div>
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item"><a href="index.html" class="nav-link">Play</a></li>
+        <li class="nav-item"><a href="learn.html" class="nav-link active">Learn</a></li>
+        <li class="nav-item"><a href="puzzles.html" class="nav-link">Puzzles</a></li>
+        <li class="nav-item"><a href="leaderboard.html" class="nav-link">Leaderboard</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="loginBtn" class="btn-secondary">Login</button>
+        <button id="signupBtn" class="btn-primary">Sign Up</button>
+
+        <!-- Compact header controls: theme toggle -->
+        <div class="header-controls" style="margin-left:0.5rem; display:flex; gap:0.5rem; align-items:center;">
+          <button id="themeToggle" class="icon-btn" aria-label="Toggle light/dark theme" title="Toggle theme">☀️</button>
+        </div>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" aria-label="Close login modal">&times;</button>
+      <div class="modal-header">
+        <h2 id="modalTitle">Welcome Back!</h2>
+        <p>Sign in to continue your chess journey</p>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" name="remember">
+            <span>Remember me</span>
+          </label>
+          <a href="forgot-password.html" class="link-text">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn-submit">Sign In</button>
+        <div class="form-divider">
+          <span>or</span>
+        </div>
+        <button type="button" id="guestBtn" class="btn-guest">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Continue as Guest
+        </button>
+      </form>
+      <div class="modal-footer">
+        Don't have an account? <a href="signup.html" class="link-text">Sign up now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Info Bar -->
+  <div class="user-bar" id="userBar" style="display: none;">
+    <div class="user-info">
+      <div class="user-avatar">
+        <span id="userInitial">G</span>
+      </div>
+      <div class="user-details">
+        <span class="user-name" id="userName">Guest Player</span>
+        <span class="user-status">Online</span>
+      </div>
+    </div>
+    <button id="logoutBtn" class="btn-logout">Logout</button>
+  </div>
+
+  <header class="site-header">
+    <h1>Learn Chess Rules</h1>
+    <p>Everything you need to know to start playing chess</p>
+  </header>
+
+  <main class="content-page">
+    <div class="rules-container">
+      
+      <!-- Chess Rules Section -->
+      <section class="rules-section">
+        <h2 class="section-title">♔ Chess Rules & How to Play</h2>
+        
+        <!-- Rule: The Board -->
+        <div class="rule-card">
+          <div class="rule-header">
+            <h3>1. The Chess Board</h3>
+          </div>
+          <div class="rule-content">
+            <div class="rule-image">
+              <svg viewBox="0 0 400 400" class="board-svg">
+                <defs>
+                  <pattern id="checkerboard" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="50" height="50" fill="#f0d9b5"/>
+                    <rect x="50" y="0" width="50" height="50" fill="#b58863"/>
+                    <rect x="0" y="50" width="50" height="50" fill="#b58863"/>
+                    <rect x="50" y="50" width="50" height="50" fill="#f0d9b5"/>
+                  </pattern>
+                </defs>
+                <rect width="400" height="400" fill="url(#checkerboard)"/>
+                <line x1="0" y1="50" x2="400" y2="50" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="0" y1="100" x2="400" y2="100" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="0" y1="150" x2="400" y2="150" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="0" y1="200" x2="400" y2="200" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="0" y1="250" x2="400" y2="250" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="0" y1="300" x2="400" y2="300" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="0" y1="350" x2="400" y2="350" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="50" y1="0" x2="50" y2="400" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="100" y1="0" x2="100" y2="400" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="150" y1="0" x2="150" y2="400" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="200" y1="0" x2="200" y2="400" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="250" y1="0" x2="250" y2="400" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="300" y1="0" x2="300" y2="400" stroke="#000" stroke-width="1" opacity="0.2"/>
+                <line x1="350" y1="0" x2="350" y2="400" stroke="#000" stroke-width="1" opacity="0.2"/>
+              </svg>
+            </div>
+            <div class="rule-description">
+              <p>Chess is played on a square board divided into 8 rows (called ranks) and 8 columns (called files), giving 64 squares in total.</p>
+              <ul>
+                <li>The board alternates between light and dark squares</li>
+                <li>The bottom-right square should always be a light square</li>
+                <li>Each player starts with 16 pieces</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rule: The Pieces -->
+        <div class="rule-card">
+          <div class="rule-header">
+            <h3>2. The Chess Pieces</h3>
+          </div>
+          <div class="rule-content pieces-grid">
+            <div class="piece-item">
+              <div class="piece-icon">♔</div>
+              <h4>King</h4>
+              <p>Moves one square in any direction. The most important piece - protect it at all costs!</p>
+            </div>
+            <div class="piece-item">
+              <div class="piece-icon">♕</div>
+              <h4>Queen</h4>
+              <p>The most powerful piece. Moves any number of squares horizontally, vertically, or diagonally.</p>
+            </div>
+            <div class="piece-item">
+              <div class="piece-icon">♖</div>
+              <h4>Rook</h4>
+              <p>Moves any number of squares horizontally or vertically. Starts in the corners.</p>
+            </div>
+            <div class="piece-item">
+              <div class="piece-icon">♗</div>
+              <h4>Bishop</h4>
+              <p>Moves any number of squares diagonally. Each bishop stays on one color throughout the game.</p>
+            </div>
+            <div class="piece-item">
+              <div class="piece-icon">♘</div>
+              <h4>Knight</h4>
+              <p>Moves in an "L" shape: 2 squares in one direction, then 1 square perpendicular. Can jump over pieces.</p>
+            </div>
+            <div class="piece-item">
+              <div class="piece-icon">♙</div>
+              <h4>Pawn</h4>
+              <p>Moves forward one square (or two on first move). Captures diagonally. Can promote when reaching the end.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rule: Game Objective -->
+        <div class="rule-card">
+          <div class="rule-header">
+            <h3>3. How to Win</h3>
+          </div>
+          <div class="rule-content">
+            <div class="win-conditions">
+              <div class="win-item">
+                <div class="win-icon">👑</div>
+                <h4>Checkmate</h4>
+                <p>When the opponent's king is under attack and cannot escape. You win!</p>
+              </div>
+              <div class="win-item">
+                <div class="win-icon">🏳️</div>
+                <h4>Resignation</h4>
+                <p>Your opponent gives up the game voluntarily.</p>
+              </div>
+              <div class="win-item">
+                <div class="win-icon">⏱️</div>
+                <h4>Time Out</h4>
+                <p>Your opponent runs out of time in a timed game.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rule: Special Moves -->
+        <div class="rule-card">
+          <div class="rule-header">
+            <h3>4. Special Moves</h3>
+          </div>
+          <div class="rule-content">
+            <div class="special-moves">
+              <div class="special-move-item">
+                <h4>🏰 Castling</h4>
+                <p>A special move involving the king and rook. The king moves 2 squares toward a rook, and the rook jumps over to the other side.</p>
+                <ul>
+                  <li>Neither piece has moved before</li>
+                  <li>No pieces between them</li>
+                  <li>King is not in check</li>
+                </ul>
+              </div>
+              <div class="special-move-item">
+                <h4>🎯 En Passant</h4>
+                <p>A special pawn capture. If an enemy pawn moves 2 squares forward and lands beside your pawn, you can capture it as if it only moved 1 square.</p>
+              </div>
+              <div class="special-move-item">
+                <h4>👑 Promotion</h4>
+                <p>When a pawn reaches the opposite end of the board, it must be promoted to a Queen, Rook, Bishop, or Knight (usually Queen!).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rule: Check -->
+        <div class="rule-card">
+          <div class="rule-header">
+            <h3>5. Check & Checkmate</h3>
+          </div>
+          <div class="rule-content">
+            <div class="rule-description">
+              <div class="check-info">
+                <div class="check-item">
+                  <h4>⚠️ Check</h4>
+                  <p>When your king is under attack by an opponent's piece. You must:</p>
+                  <ul>
+                    <li>Move the king to a safe square</li>
+                    <li>Block the attack with another piece</li>
+                    <li>Capture the attacking piece</li>
+                  </ul>
+                </div>
+                <div class="check-item">
+                  <h4>🏆 Checkmate</h4>
+                  <p>When your king is in check and there is no way to escape. Game over - you lose!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rule: Draw -->
+        <div class="rule-card">
+          <div class="rule-header">
+            <h3>6. Draw (Tie Game)</h3>
+          </div>
+          <div class="rule-content">
+            <div class="draw-conditions">
+              <div class="draw-item">
+                <h4>🤝 Stalemate</h4>
+                <p>When a player has no legal moves but is not in check.</p>
+              </div>
+              <div class="draw-item">
+                <h4>🔄 Repetition</h4>
+                <p>When the same position occurs three times.</p>
+              </div>
+              <div class="draw-item">
+                <h4>📊 Insufficient Material</h4>
+                <p>When neither player has enough pieces to checkmate.</p>
+              </div>
+              <div class="draw-item">
+                <h4>📏 50-Move Rule</h4>
+                <p>If 50 moves pass without a capture or pawn move.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <small>Built with HTML, CSS, and vanilla JavaScript.</small>
+  </footer>
+</body>
+</html>
